@@ -11,6 +11,8 @@ XamarinForms.LocationService is an application that refreshes every 2 seconds GP
   - Xamarin.Essentials
   - MessagingCenter
   - CLLocationManager
+  
+  ![Image](https://raw.githubusercontent.com/shernandezp/XamarinForms.LocationService/master/screenshot.jpeg)
 
 
 **Feel free to use the code in your project; your suggestions are more than welcome!!**
