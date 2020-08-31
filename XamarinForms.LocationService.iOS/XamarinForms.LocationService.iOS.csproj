@@ -63,8 +63,11 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LocationConsent.cs" />
+    <Compile Include="LocationManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Services\iOsLocationService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,4 +136,5 @@
       <Name>XamarinForms.LocationService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>
