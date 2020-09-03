@@ -42,12 +42,11 @@ namespace XamarinForms.LocationService.ViewModels
             StartCommand = new Command(() => OnStartClick());
             EndCommand = new Command(() => OnStopClick());
             HandleReceivedMessages();
+            locationConsent.GetLocationConsent();
         }
 
         public void OnStartClick()
         {
-            locationConsent.GetLocationConsent();
-
             var message = new StartServiceMessage();
             MessagingCenter.Send(message, "ServiceStarted");
             UserMessage = "Location Service has been started!";

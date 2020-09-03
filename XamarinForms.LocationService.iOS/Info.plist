@@ -40,5 +40,11 @@
 		<string>fetch</string>
 		<string>processing</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>These permissions are needed to give get the most accurate location of your device.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>These permissions are needed to give get the most accurate location of your device.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>These permissions are needed to give get the most accurate location of your device.</string>
 </dict>
 </plist>
