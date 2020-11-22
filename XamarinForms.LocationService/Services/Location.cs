@@ -9,17 +9,41 @@ namespace XamarinForms.LocationService.Services
 {
     public class Location
     {
-        readonly bool stopping = false;
 
 		public Location()
 		{
 		}
 
+		public void setRunningStateLocationService(bool isRunning)
+		{
+			if (isRunning)
+			{
+				Application.Current.Properties["locationServiceIsRunning"] = true;
+			}
+			else
+			{
+				Application.Current.Properties["locationServiceIsRunning"] = false;
+			}
+		}
+		public bool getRunningStateLocationService()
+		{
+			bool locationServiceIsRunning;
+			if (Application.Current.Properties.ContainsKey("locationServiceIsRunning"))
+			{
+				locationServiceIsRunning = Convert.ToBoolean(Application.Current.Properties["locationServiceIsRunning"]);
+			}
+			else
+			{
+				locationServiceIsRunning = false;
+			}
+			return locationServiceIsRunning;
+		}
+
 		public async Task Run(CancellationToken token)
 		{
 			await Task.Run(async () => {
-
-				while (!stopping)
+				System.Diagnostics.Debug.WriteLine(getRunningStateLocationService());
+				while (getRunningStateLocationService())
 				{
 					token.ThrowIfCancellationRequested();
 					try
@@ -51,6 +75,7 @@ namespace XamarinForms.LocationService.Services
 						});
 					}
 				}
+				return;
 			}, token);
 		}
 	}
