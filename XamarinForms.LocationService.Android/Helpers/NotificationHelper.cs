@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;
+using AndroidX.Core.App;
 using XamarinForms.LocationService.Droid.Helpers;
 
 [assembly: Xamarin.Forms.Dependency(typeof(NotificationHelper))]
