@@ -35,10 +35,7 @@ namespace XamarinForms.LocationService.Droid.Services
 				{
 					locShared = new Location();
 					isAlreadyStart = locShared.getRunningStateLocationService();
-					if (isAlreadyStart)
-					{
-					}
-					else
+					if (!isAlreadyStart)
 					{
 						locShared.setRunningStateLocationService(true);
 						locShared.Run(_cts.Token).Wait();

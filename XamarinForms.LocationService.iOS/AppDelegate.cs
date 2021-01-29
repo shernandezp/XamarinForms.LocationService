@@ -12,7 +12,7 @@ namespace XamarinForms.LocationService.iOS
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         iOsLocationService locationService;
-        CLLocationManager locMgr = new CLLocationManager();
+        readonly CLLocationManager locMgr = new CLLocationManager();
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();

@@ -37,19 +37,36 @@ namespace XamarinForms.LocationService.Droid
         void SetServiceMethods()
         {
             MessagingCenter.Subscribe<StartServiceMessage>(this, "ServiceStarted", message => {
-                if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                if (!IsServiceRunning(typeof(AndroidLocationService)))
                 {
-                    StartForegroundService(serviceIntent);
-                }
-                else
-                {
-                    StartService(serviceIntent);
+                    if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                    {
+                        StartForegroundService(serviceIntent);
+                    }
+                    else
+                    {
+                        StartService(serviceIntent);
+                    }
                 }
             });
 
             MessagingCenter.Subscribe<StopServiceMessage>(this, "ServiceStopped", message => {
-                StopService(serviceIntent);
+                if (IsServiceRunning(typeof(AndroidLocationService)))
+                    StopService(serviceIntent);
             });
+        }
+
+        private bool IsServiceRunning(System.Type cls)
+        {
+            ActivityManager manager = (ActivityManager)GetSystemService(Context.ActivityService);
+            foreach (var service in manager.GetRunningServices(int.MaxValue))
+            {
+                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(cls).CanonicalName))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
