@@ -6,6 +6,8 @@ XamarinForms.LocationService is an application that refreshes every 2 seconds GP
   - Location Permissions Management
   - Background Processing Management
 
+For the documentation related to the Background Service in Android/iOs, you can refer to this [tutorial](https://github.com/user/repo/blob/branch/other_file.md). That was the basis of how I started to build a solution of periodic location updates.
+
 # Components used
 
   - Xamarin.Essentials
