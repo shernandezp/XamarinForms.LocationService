@@ -26,4 +26,8 @@ So far the upgrade only required 2 things:
 ## IOs:
 None.
 
+## New features:
+- Android: As long as the user opens the application, and starts the service only once, it will be always up, even after rebooting the device.
+- iOS: As long as the application is open and the user has started the service, it will be up. If the user closes the applications or reboots the device, the service will stop. I haven't found a way to keep the service always up. (Other Native applications can keep a service always up, for example [here](https://github.com/traccar/traccar-client-ios) ).
+
 **Feel free to use the code in your project; your suggestions are more than welcome!!**
