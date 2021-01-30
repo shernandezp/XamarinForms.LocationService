@@ -6,6 +6,8 @@ XamarinForms.LocationService is an application that refreshes every 2 seconds GP
   - Location Permissions Management
   - Background Processing Management
 
+For the documentation related to the Background Service in Android/iOs, you can refer to this [tutorial](https://www.youtube.com/watch?v=Z1YzyreS4-o). That was the basis of how I started to build a solution of periodic location updates.
+
 # Components used
 
   - Xamarin.Essentials
@@ -22,6 +24,6 @@ So far the upgrade only required 2 things:
 - To add using of AndroidX.Core.App for the NotificationHelper (It's required for the NotificationCompat.Builder).
 
 ## IOs:
-I haven't tested it yet, my Mac it's a bit old and takes time to update Visual Studio and XCode.
+None.
 
 **Feel free to use the code in your project; your suggestions are more than welcome!!**
