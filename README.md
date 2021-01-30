@@ -22,6 +22,6 @@ So far the upgrade only required 2 things:
 - To add using of AndroidX.Core.App for the NotificationHelper (It's required for the NotificationCompat.Builder).
 
 ## IOs:
-I haven't tested it yet, my Mac it's a bit old and takes time to update Visual Studio and XCode.
+None.
 
 **Feel free to use the code in your project; your suggestions are more than welcome!!**
