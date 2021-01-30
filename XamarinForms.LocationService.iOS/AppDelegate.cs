@@ -15,9 +15,10 @@ namespace XamarinForms.LocationService.iOS
         readonly CLLocationManager locMgr = new CLLocationManager();
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            locationService = new iOsLocationService();
+            SetServiceMethods();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-            locationService = new iOsLocationService();
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
 
             //Background Location Permissions
@@ -31,19 +32,19 @@ namespace XamarinForms.LocationService.iOS
                 locMgr.AllowsBackgroundLocationUpdates = true;
             }
 
-            SetServiceMethods();
-
             return base.FinishedLaunching(app, options);
         }
 
         void SetServiceMethods()
         {
             MessagingCenter.Subscribe<StartServiceMessage>(this, "ServiceStarted", async message => {
-                await locationService.Start();
+                if (!locationService.isStarted)
+                    await locationService.Start();
             });
 
             MessagingCenter.Subscribe<StopServiceMessage>(this, "ServiceStopped", message => {
-                locationService.Stop();
+                if (locationService.isStarted)
+                    locationService.Stop();
             });
         }
 

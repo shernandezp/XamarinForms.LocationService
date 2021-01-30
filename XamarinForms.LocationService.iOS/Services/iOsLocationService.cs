@@ -12,6 +12,7 @@ namespace XamarinForms.LocationService.iOS.Services
     {
 		nint _taskId;
 		CancellationTokenSource _cts;
+		public bool isStarted = false;
 
 		public async Task Start()
 		{
@@ -22,6 +23,7 @@ namespace XamarinForms.LocationService.iOS.Services
 			{
 				var locShared = new Location();
 				//locShared.setRunningStateLocationService(true); 
+				isStarted = true;
 				await locShared.Run(_cts.Token);
 
 			}
@@ -46,6 +48,7 @@ namespace XamarinForms.LocationService.iOS.Services
 
 		public void Stop()
 		{
+			isStarted = false;
 			_cts.Cancel();
 		}
 

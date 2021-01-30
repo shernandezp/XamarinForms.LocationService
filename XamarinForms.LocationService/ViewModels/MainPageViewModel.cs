@@ -80,7 +80,7 @@ namespace XamarinForms.LocationService.ViewModels
         void ValidateStatus() 
         {
             var status = SecureStorage.GetAsync(Constants.SERVICE_STATUS_KEY).Result;
-            if (status.Equals("1")) 
+            if (status != null && status.Equals("1")) 
             {
                 Start();
             }
