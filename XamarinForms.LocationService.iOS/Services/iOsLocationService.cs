@@ -21,7 +21,7 @@ namespace XamarinForms.LocationService.iOS.Services
 			try
 			{
 				var locShared = new Location();
-				locShared.setRunningStateLocationService(true); 
+				//locShared.setRunningStateLocationService(true); 
 				await locShared.Run(_cts.Token);
 
 			}

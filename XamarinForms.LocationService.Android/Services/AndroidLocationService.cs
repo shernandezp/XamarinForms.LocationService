@@ -24,7 +24,6 @@ namespace XamarinForms.LocationService.Droid.Services
 
 		public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
 		{
-			bool isAlreadyStart;
 			_cts = new CancellationTokenSource();
 
 			Notification notif = DependencyService.Get<INotification>().ReturnNotif();
@@ -33,13 +32,8 @@ namespace XamarinForms.LocationService.Droid.Services
 			Task.Run(() => {
 				try
 				{
-					locShared = new Location();
-					isAlreadyStart = locShared.getRunningStateLocationService();
-					if (!isAlreadyStart)
-					{
-						locShared.setRunningStateLocationService(true);
-						locShared.Run(_cts.Token).Wait();
-					}
+					var locShared = new Location();
+					locShared.Run(_cts.Token).Wait();
 				}
 				catch (OperationCanceledException)
 				{
@@ -66,7 +60,6 @@ namespace XamarinForms.LocationService.Droid.Services
 				_cts.Token.ThrowIfCancellationRequested();
 				_cts.Cancel();
 			}
-			locShared.setRunningStateLocationService(false);
 			base.OnDestroy();
 		}
 	}

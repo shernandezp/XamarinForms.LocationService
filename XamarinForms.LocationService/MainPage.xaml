@@ -10,11 +10,13 @@
     <StackLayout VerticalOptions="Center">
         <Button VerticalOptions="CenterAndExpand"
                 Text="Start Service"
-                Command="{Binding StartCommand}"/>
+                Command="{Binding StartCommand}"
+                IsEnabled="{Binding StartEnabled}"/>
 
         <Button VerticalOptions="CenterAndExpand"
                 Text="Stop Service"
-                Command="{Binding EndCommand}"/>
+                Command="{Binding EndCommand}"
+                IsEnabled="{Binding StopEnabled}"/>
 
         <Label Text="Coordinates" VerticalOptions="CenterAndExpand" FontSize="Title"/>
 
