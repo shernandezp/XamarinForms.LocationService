@@ -22,7 +22,7 @@ namespace XamarinForms.LocationService.iOS
             };
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
-                manager.RequestWhenInUseAuthorization();
+                manager.RequestAlwaysAuthorization();
             }
         }
     }

@@ -9,7 +9,7 @@ namespace XamarinForms.LocationService.Droid
     {
         public async Task GetLocationConsent()
         {
-            await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            await Permissions.RequestAsync<Permissions.LocationAlways>();
         }
     }
 }

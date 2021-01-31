@@ -13,7 +13,6 @@ namespace XamarinForms.LocationService.Droid.Services
     [Service]
     public class AndroidLocationService : Service
     {
-		private Location locShared;
 		CancellationTokenSource _cts;
 		public const int SERVICE_RUNNING_NOTIFICATION_ID = 10000;
 
