@@ -9,8 +9,12 @@ namespace XamarinForms.LocationService.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            Intent main = new Intent(context, typeof(MainActivity));
-            context.StartActivity(main);
+            if (intent.Action.Equals(Intent.ActionBootCompleted))
+            {
+                Intent main = new Intent(context, typeof(MainActivity));
+                main.AddFlags(ActivityFlags.NewTask);
+                context.StartActivity(main);
+            }
         }
     }
 }

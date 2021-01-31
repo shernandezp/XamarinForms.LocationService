@@ -13,6 +13,7 @@ namespace XamarinForms.LocationService.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         Intent serviceIntent;
+        private const int RequestCode = 5469;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -26,12 +27,18 @@ namespace XamarinForms.LocationService.Droid
             serviceIntent = new Intent(this, typeof(AndroidLocationService));
             SetServiceMethods();
 
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && !Android.Provider.Settings.CanDrawOverlays(this))
+            {
+                var intent = new Intent(Android.Provider.Settings.ActionManageOverlayPermission);
+                intent.SetFlags(ActivityFlags.NewTask);
+                this.StartActivity(intent);
+            }
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
@@ -68,6 +75,19 @@ namespace XamarinForms.LocationService.Droid
                 }
             }
             return false;
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            if (requestCode == RequestCode)
+            {
+                if (Android.Provider.Settings.CanDrawOverlays(this))
+                {
+                    
+                }
+            }
+
+            base.OnActivityResult(requestCode, resultCode, data);
         }
     }
 }
