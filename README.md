@@ -1,6 +1,6 @@
 # Background Location Service
 
-XamarinForms.LocationService is an application that refreshes every 2 seconds GPS location. For years I have been working developing mobile apps that require location features; hopefully, the current project will save you some time in regarding service and location management in your Xamarin application for Android and iOS.
+XamarinForms.LocationService is an application that refreshes every n seconds GPS location. For years I have been working developing mobile apps that require location features; hopefully, the current project will save you some time in regarding service and location management in your Xamarin application for Android and iOS.
 
   - Location Updates
   - Location Permissions Management
