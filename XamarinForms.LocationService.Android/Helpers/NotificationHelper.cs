@@ -9,8 +9,8 @@ namespace XamarinForms.LocationService.Droid.Helpers
 {
     internal class NotificationHelper : INotification
     {
-        private static string foregroundChannelId = "9001";
-        private static Context context = global::Android.App.Application.Context;
+        private static readonly string foregroundChannelId = "9001";
+        private static readonly Context context = global::Android.App.Application.Context;
 
 
         public Notification ReturnNotif()
@@ -19,7 +19,7 @@ namespace XamarinForms.LocationService.Droid.Helpers
             intent.AddFlags(ActivityFlags.SingleTop);
             intent.PutExtra("Title", "Message");
 
-            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.Immutable);
 
             var notifBuilder = new NotificationCompat.Builder(context, foregroundChannelId)
                 .SetContentTitle("Your Title")
@@ -30,15 +30,16 @@ namespace XamarinForms.LocationService.Droid.Helpers
 
             if (global::Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                NotificationChannel notificationChannel = new NotificationChannel(foregroundChannelId, "Title", NotificationImportance.High);
-                notificationChannel.Importance = NotificationImportance.High;
+                NotificationChannel notificationChannel = new NotificationChannel(foregroundChannelId, "Title", NotificationImportance.High)
+                {
+                    Importance = NotificationImportance.High
+                };
                 notificationChannel.EnableLights(true);
                 notificationChannel.EnableVibration(true);
                 notificationChannel.SetShowBadge(true);
                 notificationChannel.SetVibrationPattern(new long[] { 100, 200, 300 });
 
-                var notifManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
-                if (notifManager != null)
+                if (context.GetSystemService(Context.NotificationService) is NotificationManager notifManager)
                 {
                     notifBuilder.SetChannelId(foregroundChannelId);
                     notifManager.CreateNotificationChannel(notificationChannel);

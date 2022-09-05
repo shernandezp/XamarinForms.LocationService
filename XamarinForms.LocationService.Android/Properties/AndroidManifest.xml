@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.xamarinforms.locationservice" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
 	<application android:label="XamarinForms.LocationService.Android" android:theme="@style/MainTheme">
-		<receiver android:name="com.locationservice.app.BootBroadcastReceiver"
-              android:enabled="true"
-							android:exported="true"
-							android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+		<receiver android:name="com.locationservice.app.BootBroadcastReceiver" android:enabled="true" android:exported="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
-        <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-        <category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
+				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</receiver>
 	</application>
