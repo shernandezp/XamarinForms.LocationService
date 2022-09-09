@@ -9,7 +9,7 @@ namespace XamarinForms.LocationService.Services
 {
     public class Location
     {
-		readonly bool stopping = false;
+		bool stopping = false;
 		public Location()
 		{
 		}
@@ -19,7 +19,7 @@ namespace XamarinForms.LocationService.Services
 			await Task.Run(async () => {
 				while (!stopping)
 				{
-					token.ThrowIfCancellationRequested();
+					stopping = token.IsCancellationRequested;
 					try
 					{
 						await Task.Delay(2000);
