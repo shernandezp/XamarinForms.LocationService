@@ -1,7 +1,7 @@
-﻿using UIKit;
-
-namespace XamarinForms.LocationService.iOS
+﻿namespace XamarinForms.LocationService.iOS
 {
+    using UIKit;
+
     public class Application
     {
         // This is the main entry point of the application.
@@ -9,7 +9,7 @@ namespace XamarinForms.LocationService.iOS
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
-            UIApplication.Main(args, null, "AppDelegate");
+            UIApplication.Main(args, null, typeof(AppDelegate));
         }
     }
 }

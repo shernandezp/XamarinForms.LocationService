@@ -1,13 +1,13 @@
-﻿using CoreLocation;
-using Foundation;
-using System;
-using UIKit;
-using Xamarin.Forms;
-using XamarinForms.LocationService.iOS.Services;
-using XamarinForms.LocationService.Messages;
-
-namespace XamarinForms.LocationService.iOS
+﻿namespace XamarinForms.LocationService.iOS
 {
+    using CoreLocation;
+    using Foundation;
+    using System;
+    using UIKit;
+    using Xamarin.Forms;
+    using XamarinForms.LocationService.iOS.Services;
+    using XamarinForms.LocationService.Messages;
+
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
@@ -17,7 +17,7 @@ namespace XamarinForms.LocationService.iOS
         {
             locationService = new iOsLocationService();
             SetServiceMethods();
-            global::Xamarin.Forms.Forms.Init();
+            Forms.Init();
             LoadApplication(new App());
             UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
 

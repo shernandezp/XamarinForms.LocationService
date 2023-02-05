@@ -1,14 +1,14 @@
-﻿using Android.App;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.OS;
-using Android.Content;
-using Xamarin.Forms;
-using XamarinForms.LocationService.Droid.Services;
-using XamarinForms.LocationService.Messages;
-
-namespace XamarinForms.LocationService.Droid
+﻿namespace XamarinForms.LocationService.Droid
 {
+    using Android.App;
+    using Android.Content.PM;
+    using Android.Runtime;
+    using Android.OS;
+    using Android.Content;
+    using Xamarin.Forms;
+    using XamarinForms.LocationService.Droid.Services;
+    using XamarinForms.LocationService.Messages;
+
     [Activity(Label = "XamarinForms.LocationService", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -47,7 +47,7 @@ namespace XamarinForms.LocationService.Droid
             MessagingCenter.Subscribe<StartServiceMessage>(this, "ServiceStarted", message => {
                 if (!IsServiceRunning(typeof(AndroidLocationService)))
                 {
-                    if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
                     {
                         StartForegroundService(serviceIntent);
                     }

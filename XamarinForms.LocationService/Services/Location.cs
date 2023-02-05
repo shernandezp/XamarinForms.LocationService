@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using XamarinForms.LocationService.Messages;
-
-namespace XamarinForms.LocationService.Services
+﻿namespace XamarinForms.LocationService.Services
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Xamarin.Essentials;
+    using Xamarin.Forms;
+    using XamarinForms.LocationService.Messages;
+
     public class Location
     {
 		bool stopping = false;
@@ -22,9 +22,9 @@ namespace XamarinForms.LocationService.Services
 					stopping = token.IsCancellationRequested;
 					try
 					{
-						await Task.Delay(2000);
+						await Task.Delay(5000);
 
-						var request = new GeolocationRequest(GeolocationAccuracy.High);
+						var request = new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
 						var location = await Geolocation.GetLocationAsync(request);
 						if (location != null)
 						{
@@ -36,7 +36,7 @@ namespace XamarinForms.LocationService.Services
 
 							Device.BeginInvokeOnMainThread(() =>
 							{
-								MessagingCenter.Send<LocationMessage>(message, "Location");
+								MessagingCenter.Send(message, "Location");
 							});
 						}
 					}
@@ -45,7 +45,7 @@ namespace XamarinForms.LocationService.Services
 						Device.BeginInvokeOnMainThread(() =>
 						{
 							var errormessage = new LocationErrorMessage();
-							MessagingCenter.Send<LocationErrorMessage>(errormessage, "LocationError");
+							MessagingCenter.Send(errormessage, "LocationError");
 						});
 					}
 				}

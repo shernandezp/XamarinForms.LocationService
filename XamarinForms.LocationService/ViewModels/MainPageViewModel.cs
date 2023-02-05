@@ -1,10 +1,11 @@
-﻿using Xamarin.Essentials;
-using Xamarin.Forms;
-using XamarinForms.LocationService.Messages;
-using XamarinForms.LocationService.Utils;
-
-namespace XamarinForms.LocationService.ViewModels
+﻿namespace XamarinForms.LocationService.ViewModels
 {
+    using System.Threading.Tasks;
+    using Xamarin.Essentials;
+    using Xamarin.Forms;
+    using XamarinForms.LocationService.Messages;
+    using XamarinForms.LocationService.Utils;
+
     public class MainPageViewModel : BaseViewModel
     {
         #region vars
@@ -48,50 +49,45 @@ namespace XamarinForms.LocationService.ViewModels
         public Command EndCommand { get; }
         #endregion commands
 
-        readonly ILocationConsent locationConsent;
-
         public MainPageViewModel()
         {
-            locationConsent = DependencyService.Get<ILocationConsent>();
-            StartCommand = new Command(() => OnStartClick());
-            EndCommand = new Command(() => OnStopClick());
+            StartCommand = new Command(async () => await OnStartClick());
+            EndCommand = new Command(async() => await OnStopClick());
             HandleReceivedMessages();
-            locationConsent.GetLocationConsent();
             StartEnabled = true;
             StopEnabled = false;
-            ValidateStatus();
         }
 
-        public void OnStartClick()
+        public async Task OnStartClick()
         {
-            Start();
+            await Start();
         }
 
-        public void OnStopClick()
+        public async Task OnStopClick()
         {
             var message = new StopServiceMessage();
             MessagingCenter.Send(message, "ServiceStopped");
             UserMessage = "Location Service has been stopped!";
-            SecureStorage.SetAsync(Constants.SERVICE_STATUS_KEY, "0");
+            await SecureStorage.SetAsync(Constants.SERVICE_STATUS_KEY, "0");
             StartEnabled = true;
             StopEnabled = false;
         }
 
-        void ValidateStatus() 
+        public async Task ValidateStatus() 
         {
-            var status = SecureStorage.GetAsync(Constants.SERVICE_STATUS_KEY).Result;
+            var status = await SecureStorage.GetAsync(Constants.SERVICE_STATUS_KEY);
             if (status != null && status.Equals("1")) 
             {
-                Start();
+                await Start();
             }
         }
 
-        void Start() 
+        async Task Start() 
         {
             var message = new StartServiceMessage();
             MessagingCenter.Send(message, "ServiceStarted");
             UserMessage = "Location Service has been started!";
-            SecureStorage.SetAsync(Constants.SERVICE_STATUS_KEY, "1");
+            await SecureStorage.SetAsync(Constants.SERVICE_STATUS_KEY, "1");
             StartEnabled = false;
             StopEnabled = true;
         }

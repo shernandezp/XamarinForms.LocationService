@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace XamarinForms.LocationService.ViewModels
+﻿namespace XamarinForms.LocationService.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
     public class BaseViewModel : INotifyPropertyChanged
     {
         bool isBusy = false;
