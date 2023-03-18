@@ -34,19 +34,16 @@
 								Longitude = location.Longitude
 							};
 
-							Device.BeginInvokeOnMainThread(() =>
-							{
-								MessagingCenter.Send(message, "Location");
-							});
+							MessagingCenter.Send(message, "Location");
 						}
 					}
 					catch (Exception ex)
 					{
-						Device.BeginInvokeOnMainThread(() =>
+						var errormessage = new LocationErrorMessage 
 						{
-							var errormessage = new LocationErrorMessage();
-							MessagingCenter.Send(errormessage, "LocationError");
-						});
+							Exception = ex
+						};
+						MessagingCenter.Send(errormessage, "LocationError");
 					}
 				}
 				return;

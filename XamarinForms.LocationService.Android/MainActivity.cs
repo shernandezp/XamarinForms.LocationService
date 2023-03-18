@@ -22,7 +22,7 @@
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
 
             serviceIntent = new Intent(this, typeof(AndroidLocationService));
             SetServiceMethods();
@@ -64,14 +64,24 @@
             });
         }
 
-        private bool IsServiceRunning(System.Type cls)
+        public bool IsServiceRunning(System.Type serviceClass)
         {
-            ActivityManager manager = (ActivityManager)GetSystemService(Context.ActivityService);
-            foreach (var service in manager.GetRunningServices(int.MaxValue))
+            ActivityManager activityManager = (ActivityManager)GetSystemService(Context.ActivityService);
+            var runningAppProcesses = activityManager.RunningAppProcesses;
+            if (runningAppProcesses != null)
             {
-                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(cls).CanonicalName))
+                foreach (var processInfo in runningAppProcesses)
                 {
-                    return true;
+                    if (processInfo.Importance == Importance.Foreground)
+                    {
+                        foreach (string activeProcess in processInfo.PkgList)
+                        {
+                            if (activeProcess.Equals(serviceClass.Name))
+                            {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
             return false;

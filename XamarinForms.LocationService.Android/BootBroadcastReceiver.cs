@@ -1,9 +1,9 @@
-﻿using Android.App;
-using Android.Content;
-
-namespace XamarinForms.LocationService.Droid
+﻿namespace XamarinForms.LocationService.Droid
 {
-    [BroadcastReceiver(Name = "com.locationservice.app.BootBroadcastReceiver", Enabled = true)]
+    using Android.App;
+    using Android.Content;
+
+    [BroadcastReceiver(Name = "com.locationservice.app.BootBroadcastReceiver", Enabled = true, Exported = true)]
     [IntentFilter(new[] { Intent.ActionBootCompleted })]
     public class BootBroadcastReceiver : BroadcastReceiver
     {

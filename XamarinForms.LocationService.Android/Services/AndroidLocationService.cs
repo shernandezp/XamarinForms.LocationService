@@ -1,15 +1,14 @@
-﻿using Android.App;
-using Android.Content;
-using System.Threading.Tasks;
-using Android.OS;
-using System.Threading;
-using Xamarin.Forms;
-using XamarinForms.LocationService.Services;
-using XamarinForms.LocationService.Messages;
-using XamarinForms.LocationService.Droid.Helpers;
-
-namespace XamarinForms.LocationService.Droid.Services
+﻿namespace XamarinForms.LocationService.Droid.Services
 {
+    using Android.App;
+    using Android.Content;
+    using System.Threading.Tasks;
+    using Android.OS;
+    using System.Threading;
+    using Xamarin.Forms;
+    using XamarinForms.LocationService.Services;
+    using XamarinForms.LocationService.Messages;
+    using XamarinForms.LocationService.Droid.Helpers;
     [Service]
     public class AndroidLocationService : Service
     {
