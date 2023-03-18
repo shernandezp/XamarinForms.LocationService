@@ -1,16 +1,17 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using AndroidX.Core.App;
-using XamarinForms.LocationService.Droid.Helpers;
+﻿using XamarinForms.LocationService.Droid.Helpers;
 
 [assembly: Xamarin.Forms.Dependency(typeof(NotificationHelper))]
 namespace XamarinForms.LocationService.Droid.Helpers
 {
+    using Android.App;
+    using Android.Content;
+    using Android.OS;
+    using AndroidX.Core.App;
+
     internal class NotificationHelper : INotification
     {
-        private static readonly string foregroundChannelId = "9001";
-        private static readonly Context context = global::Android.App.Application.Context;
+        private static readonly string foregroundChannelId = "MyForegroundChannelId";
+        private static readonly Context context = Application.Context;
 
 
         public Notification ReturnNotif()
@@ -28,9 +29,9 @@ namespace XamarinForms.LocationService.Droid.Helpers
                 .SetOngoing(true)
                 .SetContentIntent(pendingIntent);
 
-            if (global::Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                NotificationChannel notificationChannel = new NotificationChannel(foregroundChannelId, "Title", NotificationImportance.High)
+                var notificationChannel = new NotificationChannel(foregroundChannelId, "Title", NotificationImportance.High)
                 {
                     Importance = NotificationImportance.High
                 };

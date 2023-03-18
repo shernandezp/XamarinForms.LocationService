@@ -9,6 +9,7 @@
     using XamarinForms.LocationService.Services;
     using XamarinForms.LocationService.Messages;
     using XamarinForms.LocationService.Droid.Helpers;
+
     [Service]
     public class AndroidLocationService : Service
     {
@@ -24,7 +25,7 @@
 		{
 			_cts = new CancellationTokenSource();
 
-			Notification notif = DependencyService.Get<INotification>().ReturnNotif();
+			var notif = DependencyService.Get<INotification>().ReturnNotif();
 			StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notif);
 
 			Task.Run(() => {
@@ -41,9 +42,7 @@
 					if (_cts.IsCancellationRequested)
 					{
 						var message = new StopServiceMessage();
-						Device.BeginInvokeOnMainThread(
-							() => MessagingCenter.Send(message, "ServiceStopped")
-						);
+						MessagingCenter.Send(message, "ServiceStopped");
 					}
 				}
 			}, _cts.Token);
@@ -59,6 +58,6 @@
 				_cts.Cancel();
 			}
 			base.OnDestroy();
-		}
+        }
 	}
 }

@@ -66,22 +66,12 @@
 
         public bool IsServiceRunning(System.Type serviceClass)
         {
-            ActivityManager activityManager = (ActivityManager)GetSystemService(Context.ActivityService);
-            var runningAppProcesses = activityManager.RunningAppProcesses;
-            if (runningAppProcesses != null)
+            var manager = (ActivityManager)GetSystemService(ActivityService);
+            foreach (var service in manager.GetRunningServices(int.MaxValue))
             {
-                foreach (var processInfo in runningAppProcesses)
+                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(serviceClass).CanonicalName))
                 {
-                    if (processInfo.Importance == Importance.Foreground)
-                    {
-                        foreach (string activeProcess in processInfo.PkgList)
-                        {
-                            if (activeProcess.Equals(serviceClass.Name))
-                            {
-                                return true;
-                            }
-                        }
-                    }
+                    return true;
                 }
             }
             return false;

@@ -16,38 +16,35 @@
 
 		public async Task Run(CancellationToken token)
 		{
-			await Task.Run(async () => {
-				while (!stopping)
+			while (!stopping)
+			{
+				stopping = token.IsCancellationRequested;
+				try
 				{
-					stopping = token.IsCancellationRequested;
-					try
-					{
-						await Task.Delay(5000);
+					await Task.Delay(5000);
 
-						var request = new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
-						var location = await Geolocation.GetLocationAsync(request);
-						if (location != null)
-						{
-							var message = new LocationMessage 
-							{
-								Latitude = location.Latitude,
-								Longitude = location.Longitude
-							};
-
-							MessagingCenter.Send(message, "Location");
-						}
-					}
-					catch (Exception ex)
+					var request = new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
+					var location = await Geolocation.GetLocationAsync(request);
+					if (location != null)
 					{
-						var errormessage = new LocationErrorMessage 
+						var message = new LocationMessage 
 						{
-							Exception = ex
+							Latitude = location.Latitude,
+							Longitude = location.Longitude
 						};
-						MessagingCenter.Send(errormessage, "LocationError");
+
+						MessagingCenter.Send(message, "Location");
 					}
 				}
-				return;
-			}, token);
+				catch (Exception ex)
+				{
+					var errormessage = new LocationErrorMessage 
+					{
+						Exception = ex
+					};
+					MessagingCenter.Send(errormessage, "LocationError");
+				}
+			}
 		}
 	}
 }
