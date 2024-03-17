@@ -3,42 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XamarinForms.LocationService.MainPage">
 
-    <StackLayout VerticalOptions="Center">
-        <Button VerticalOptions="CenterAndExpand"
-                Text="Start Service"
+    <StackLayout VerticalOptions="Center" Padding="20" Spacing="20">
+
+        <Label Text="Background Location Service"
+               FontAttributes="Bold"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="Center"
+               FontSize="Title"/>
+
+        <Button Text="Start Service"
                 Command="{Binding StartCommand}"
-                IsEnabled="{Binding StartEnabled}"/>
+                IsEnabled="{Binding StartEnabled}" />
 
-        <Button VerticalOptions="CenterAndExpand"
-                Text="Stop Service"
+        <Button Text="Stop Service"
                 Command="{Binding EndCommand}"
-                IsEnabled="{Binding StopEnabled}"/>
+                IsEnabled="{Binding StopEnabled}" />
 
-        <Label Text="Coordinates" VerticalOptions="CenterAndExpand" FontSize="Title"/>
+        <StackLayout Spacing="10">
+            <Label Text="Coordinates" FontSize="Title" />
+            <StackLayout Orientation="Horizontal" Spacing="5" VerticalOptions="CenterAndExpand">
+                <Label Text="Latitude: " />
+                <Label Text="{Binding Latitude}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="5" VerticalOptions="CenterAndExpand">
+                <Label Text="Longitude: " />
+                <Label Text="{Binding Longitude}" />
+            </StackLayout>
+        </StackLayout>
 
-        <Label>
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Latitude: "/>
-                        <Span Text="{Binding Latitude}"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
-        <Label>
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Longitude: "/>
-                        <Span Text="{Binding Longitude}"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
-
-        <Label Text="{Binding UserMessage}" VerticalOptions="CenterAndExpand"/>
-
+        <Label Text="{Binding UserMessage}" VerticalOptions="CenterAndExpand" />
     </StackLayout>
 
 </ContentPage>
