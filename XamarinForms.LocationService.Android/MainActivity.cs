@@ -19,80 +19,79 @@ using Android.OS;
 using Android.Content;
 using Android.Provider;
 
-namespace XamarinForms.LocationService.Droid
+namespace XamarinForms.LocationService.Droid;
+
+using CommunityToolkit.Mvvm.Messaging;
+using XamarinForms.LocationService.Droid.Services;
+using XamarinForms.LocationService.Messages;
+using XamarinForms.LocationService.Utils;
+
+[Activity(Label = "XamarinForms.LocationService", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+public class MainActivity : Microsoft.Maui.MauiAppCompatActivity
 {
-    using CommunityToolkit.Mvvm.Messaging;
-    using XamarinForms.LocationService.Droid.Services;
-    using XamarinForms.LocationService.Messages;
-    using XamarinForms.LocationService.Utils;
-
-    [Activity(Label = "XamarinForms.LocationService", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
-    public class MainActivity : Microsoft.Maui.MauiAppCompatActivity
+    Intent serviceIntent;
+    private const int RequestCode = 5469;
+    protected override void OnCreate(Bundle savedInstanceState)
     {
-        Intent serviceIntent;
-        private const int RequestCode = 5469;
-        protected override void OnCreate(Bundle savedInstanceState)
+        base.OnCreate(savedInstanceState);
+
+        serviceIntent = new Intent(this, typeof(AndroidLocationService));
+        WeakReferenceMessenger.Default.Register<ServiceMessage>(this, HandleServiceMessage);
+
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.M && !Settings.CanDrawOverlays(this))
         {
-            base.OnCreate(savedInstanceState);
-
-            serviceIntent = new Intent(this, typeof(AndroidLocationService));
-            WeakReferenceMessenger.Default.Register<ServiceMessage>(this, HandleServiceMessage);
-
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && !Settings.CanDrawOverlays(this))
-            {
-                var intent = new Intent(Settings.ActionManageOverlayPermission);
-                intent.SetFlags(ActivityFlags.NewTask);
-                StartActivity(intent);
-            }
+            var intent = new Intent(Settings.ActionManageOverlayPermission);
+            intent.SetFlags(ActivityFlags.NewTask);
+            StartActivity(intent);
         }
+    }
 
-        private void HandleServiceMessage(object recipient, ServiceMessage message) 
+    private void HandleServiceMessage(object recipient, ServiceMessage message) 
+    {
+        if (message.Value == ActionsEnum.START)
         {
-            if (message.Value == ActionsEnum.START)
+            if (!IsServiceRunning(typeof(AndroidLocationService)))
             {
-                if (!IsServiceRunning(typeof(AndroidLocationService)))
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
                 {
-                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                    {
-                        StartForegroundService(serviceIntent);
-                    }
-                    else
-                    {
-                        StartService(serviceIntent);
-                    }
+                    StartForegroundService(serviceIntent);
+                }
+                else
+                {
+                    StartService(serviceIntent);
                 }
             }
-            else 
-            {
-                if (IsServiceRunning(typeof(AndroidLocationService)))
-                    StopService(serviceIntent);
-            }
         }
-
-        public bool IsServiceRunning(System.Type serviceClass)
+        else 
         {
-            var manager = (ActivityManager)GetSystemService(ActivityService);
-            foreach (var service in manager.GetRunningServices(int.MaxValue))
-            {
-                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(serviceClass).CanonicalName))
-                {
-                    return true;
-                }
-            }
-            return false;
+            if (IsServiceRunning(typeof(AndroidLocationService)))
+                StopService(serviceIntent);
         }
+    }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+    public bool IsServiceRunning(System.Type serviceClass)
+    {
+        var manager = (ActivityManager)GetSystemService(ActivityService);
+        foreach (var service in manager.GetRunningServices(int.MaxValue))
         {
-            if (requestCode == RequestCode)
+            if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(serviceClass).CanonicalName))
             {
-                if (Settings.CanDrawOverlays(this))
-                {
-                    
-                }
+                return true;
             }
-
-            base.OnActivityResult(requestCode, resultCode, data);
         }
+        return false;
+    }
+
+    protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+    {
+        if (requestCode == RequestCode)
+        {
+            if (Settings.CanDrawOverlays(this))
+            {
+                
+            }
+        }
+
+        base.OnActivityResult(requestCode, resultCode, data);
     }
 }
