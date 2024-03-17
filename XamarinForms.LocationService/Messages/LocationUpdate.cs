@@ -13,27 +13,11 @@
 //  limitations under the License.
 //
 
-namespace XamarinForms.LocationService
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using XamarinForms.LocationService.Models;
+
+namespace XamarinForms.LocationService.Messages;
+
+internal class LocationUpdate(LocationModel value) : ValueChangedMessage<LocationModel>(value)
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-
-            MainPage = new MainPage();
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
-    }
 }

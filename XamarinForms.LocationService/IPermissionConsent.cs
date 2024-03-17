@@ -13,27 +13,12 @@
 //  limitations under the License.
 //
 
-namespace XamarinForms.LocationService
+namespace XamarinForms.LocationService;
+
+using System.Threading.Tasks;
+
+public interface IPermissionConsent
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-
-            MainPage = new MainPage();
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
-    }
+    Task GetLocationConsent();
+    void GetNotificationsConsent();
 }

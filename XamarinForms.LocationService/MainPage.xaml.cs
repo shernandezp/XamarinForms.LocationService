@@ -1,26 +1,36 @@
-﻿namespace XamarinForms.LocationService
+﻿// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License").
+//  You may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+namespace XamarinForms.LocationService;
+
+using XamarinForms.LocationService.ViewModels;
+
+public partial class MainPage : ContentPage
 {
-    using Xamarin.Forms;
-    using XamarinForms.LocationService.ViewModels;
+    private readonly MainPageViewModel vm;
 
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        private readonly MainPageViewModel vm;
-        readonly ILocationConsent locationConsent;
+        InitializeComponent();
+        vm = new MainPageViewModel();
+        BindingContext = vm;
+    }
 
-        public MainPage()
-        {
-            InitializeComponent();
-            locationConsent = DependencyService.Get<ILocationConsent>();
-            vm = new MainPageViewModel();
-            BindingContext = vm;
-        }
-
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-            await locationConsent.GetLocationConsent();
-            await vm.ValidateStatus();
-        }
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        await vm.ValidateStatus();
     }
 }

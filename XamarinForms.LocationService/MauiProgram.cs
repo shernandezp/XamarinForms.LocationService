@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
+// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License").
 //  You may not use this file except in compliance with the License.
@@ -13,27 +13,16 @@
 //  limitations under the License.
 //
 
-namespace XamarinForms.LocationService
+namespace XamarinForms.LocationService;
+
+public static class MauiProgram
 {
-    public partial class App : Application
+    public static MauiApp CreateMauiApp()
     {
-        public App()
-        {
-            InitializeComponent();
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>();
 
-            MainPage = new MainPage();
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
+        return builder.Build();
     }
 }

@@ -1,14 +1,33 @@
-﻿namespace XamarinForms.LocationService.Droid.Services
+﻿// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License").
+//  You may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+using Android.OS;
+using Android.App;
+using Android.Content;
+
+namespace XamarinForms.LocationService.Droid.Services
 {
-    using Android.App;
-    using Android.Content;
     using System.Threading.Tasks;
-    using Android.OS;
+    
     using System.Threading;
-    using Xamarin.Forms;
     using XamarinForms.LocationService.Services;
     using XamarinForms.LocationService.Messages;
     using XamarinForms.LocationService.Droid.Helpers;
+    using Microsoft.Maui.Controls;
+    using CommunityToolkit.Mvvm.Messaging;
+    using XamarinForms.LocationService.Utils;
 
     [Service]
     public class AndroidLocationService : Service
@@ -25,8 +44,8 @@
 		{
 			_cts = new CancellationTokenSource();
 
-			var notif = DependencyService.Get<INotification>().ReturnNotif();
-			StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notif);
+			var notification = DependencyService.Get<INotification>().ReturnNotification();
+			StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
 
 			Task.Run(() => {
 				try
@@ -41,8 +60,7 @@
 				{
 					if (_cts.IsCancellationRequested)
 					{
-						var message = new StopServiceMessage();
-						MessagingCenter.Send(message, "ServiceStopped");
+                        WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.STOP));
 					}
 				}
 			}, _cts.Token);

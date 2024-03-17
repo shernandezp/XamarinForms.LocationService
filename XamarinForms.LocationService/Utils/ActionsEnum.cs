@@ -13,27 +13,11 @@
 //  limitations under the License.
 //
 
-namespace XamarinForms.LocationService
+namespace XamarinForms.LocationService.Utils
 {
-    public partial class App : Application
+    public enum ActionsEnum
     {
-        public App()
-        {
-            InitializeComponent();
-
-            MainPage = new MainPage();
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
+        START,
+        STOP
     }
 }

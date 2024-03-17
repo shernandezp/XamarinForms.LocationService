@@ -13,27 +13,10 @@
 //  limitations under the License.
 //
 
-namespace XamarinForms.LocationService
+namespace XamarinForms.LocationService.Models;
+
+internal class LocationModel
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-
-            MainPage = new MainPage();
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
-    }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
 }

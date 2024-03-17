@@ -1,13 +1,18 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30413.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinForms.LocationService", "XamarinForms.LocationService\XamarinForms.LocationService.csproj", "{A22289B2-5F1A-4F3E-A1E4-F84028F829D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.LocationService.Android", "XamarinForms.LocationService.Android\XamarinForms.LocationService.Android.csproj", "{32D4F158-763D-431C-8F1B-B4360888B1F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinForms.LocationService.Android", "XamarinForms.LocationService.Android\XamarinForms.LocationService.Android.csproj", "{32D4F158-763D-431C-8F1B-B4360888B1F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.LocationService.iOS", "XamarinForms.LocationService.iOS\XamarinForms.LocationService.iOS.csproj", "{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinForms.LocationService.iOS", "XamarinForms.LocationService.iOS\XamarinForms.LocationService.iOS.csproj", "{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{233E5491-4470-48D0-8CE3-B564DF101462}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +55,7 @@ Global
 		{32D4F158-763D-431C-8F1B-B4360888B1F9}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{32D4F158-763D-431C-8F1B-B4360888B1F9}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 		{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
 		{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}.Debug|iPhone.Build.0 = Debug|iPhone
 		{A9063D7F-9847-4FBA-A6FD-6C676EB190B3}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator

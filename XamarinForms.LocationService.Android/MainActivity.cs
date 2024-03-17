@@ -1,50 +1,55 @@
-﻿namespace XamarinForms.LocationService.Droid
+﻿// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License").
+//  You may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+using Android.App;
+using Android.Content.PM;
+using Android.OS;
+using Android.Content;
+using Android.Provider;
+
+namespace XamarinForms.LocationService.Droid
 {
-    using Android.App;
-    using Android.Content.PM;
-    using Android.Runtime;
-    using Android.OS;
-    using Android.Content;
-    using Xamarin.Forms;
+    using CommunityToolkit.Mvvm.Messaging;
     using XamarinForms.LocationService.Droid.Services;
     using XamarinForms.LocationService.Messages;
+    using XamarinForms.LocationService.Utils;
 
     [Activity(Label = "XamarinForms.LocationService", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : Microsoft.Maui.MauiAppCompatActivity
     {
         Intent serviceIntent;
         private const int RequestCode = 5469;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
 
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Forms.Init(this, savedInstanceState);
-
             serviceIntent = new Intent(this, typeof(AndroidLocationService));
-            SetServiceMethods();
+            WeakReferenceMessenger.Default.Register<ServiceMessage>(this, HandleServiceMessage);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && !Android.Provider.Settings.CanDrawOverlays(this))
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && !Settings.CanDrawOverlays(this))
             {
-                var intent = new Intent(Android.Provider.Settings.ActionManageOverlayPermission);
+                var intent = new Intent(Settings.ActionManageOverlayPermission);
                 intent.SetFlags(ActivityFlags.NewTask);
-                this.StartActivity(intent);
+                StartActivity(intent);
             }
-
-            LoadApplication(new App());
-        }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        void SetServiceMethods()
+        private void HandleServiceMessage(object recipient, ServiceMessage message) 
         {
-            MessagingCenter.Subscribe<StartServiceMessage>(this, "ServiceStarted", message => {
+            if (message.Value == ActionsEnum.START)
+            {
                 if (!IsServiceRunning(typeof(AndroidLocationService)))
                 {
                     if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
@@ -56,12 +61,12 @@
                         StartService(serviceIntent);
                     }
                 }
-            });
-
-            MessagingCenter.Subscribe<StopServiceMessage>(this, "ServiceStopped", message => {
+            }
+            else 
+            {
                 if (IsServiceRunning(typeof(AndroidLocationService)))
                     StopService(serviceIntent);
-            });
+            }
         }
 
         public bool IsServiceRunning(System.Type serviceClass)
@@ -81,7 +86,7 @@
         {
             if (requestCode == RequestCode)
             {
-                if (Android.Provider.Settings.CanDrawOverlays(this))
+                if (Settings.CanDrawOverlays(this))
                 {
                     
                 }

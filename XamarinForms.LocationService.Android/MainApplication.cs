@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
+// Copyright (c) 2024 Sergio Hernandez. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License").
 //  You may not use this file except in compliance with the License.
@@ -13,23 +13,26 @@
 //  limitations under the License.
 //
 
+using System;
 using Android.App;
-using Android.Content;
+using Android.Runtime;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Hosting;
+using XamarinForms.LocationService.Droid.Helpers;
 
 namespace XamarinForms.LocationService.Droid
 {
-    [BroadcastReceiver(Name = "com.locationservice.app.BootBroadcastReceiver", Enabled = true, Exported = true)]
-    [IntentFilter([Intent.ActionBootCompleted])]
-    public class BootBroadcastReceiver : BroadcastReceiver
-    {
-        public override void OnReceive(Context context, Intent intent)
+    [Application]
+    public class MainApplication : MauiApplication
+{
+        public MainApplication(IntPtr handle, JniHandleOwnership ownership)
+            : base(handle, ownership)
         {
-            if (intent.Action.Equals(Intent.ActionBootCompleted))
-            {
-                Intent main = new(context, typeof(MainActivity));
-                main.AddFlags(ActivityFlags.NewTask);
-                context.StartActivity(main);
-            }
+            DependencyService.Register<IPermissionConsent, PermissionConsent>();
+            DependencyService.Register<INotification, NotificationHelper>();
         }
+
+        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 }
