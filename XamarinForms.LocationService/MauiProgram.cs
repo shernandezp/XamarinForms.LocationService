@@ -13,6 +13,8 @@
 //  limitations under the License.
 //
 
+using XamarinForms.LocationService.ViewModels;
+
 namespace XamarinForms.LocationService;
 
 public static class MauiProgram
@@ -22,6 +24,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>();
+
+        builder.Services.AddSingleton<MainPageViewModel>();
 
         return builder.Build();
     }

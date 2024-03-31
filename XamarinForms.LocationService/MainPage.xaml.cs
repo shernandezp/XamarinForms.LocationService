@@ -25,6 +25,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         vm = new MainPageViewModel();
+        vm = AppService.GetService<MainPageViewModel>();
         BindingContext = vm;
     }
 

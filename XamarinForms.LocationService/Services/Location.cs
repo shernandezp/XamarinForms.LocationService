@@ -22,40 +22,40 @@ using System.Threading.Tasks;
 using XamarinForms.LocationService.Messages;
 using XamarinForms.LocationService.Models;
 
-public class Location
+public sealed class Location
 {
-		bool stopping = false;
+    bool stopping = false;
 
-		public async Task Run(CancellationToken token)
-		{
-			while (!stopping)
-			{
-				stopping = token.IsCancellationRequested;
-				try
-				{
-					await Task.Delay(5000, token);
+    public async Task Run(CancellationToken token)
+    {
+        while (!stopping)
+        {
+            stopping = token.IsCancellationRequested;
+            try
+            {
+                await Task.Delay(5000, token);
 
-					var request = new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
-					var location = await Geolocation.GetLocationAsync(request, token);
-					if (location != null)
-					{
-						var message = new LocationModel 
-						{
-							Latitude = location.Latitude,
-							Longitude = location.Longitude
-						};
+                var request = new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
+                var location = await Geolocation.GetLocationAsync(request, token);
+                if (location != null)
+                {
+                    var message = new LocationModel
+                    {
+                        Latitude = location.Latitude,
+                        Longitude = location.Longitude
+                    };
 
                     WeakReferenceMessenger.Default.Send(new LocationUpdate(message));
                 }
-				}
-				catch (Exception ex)
-				{
+            }
+            catch (Exception ex)
+            {
                 var errormessage = new LocationErrorMessage(ex.Message)
                 {
                     Exception = ex
                 };
                 WeakReferenceMessenger.Default.Send(errormessage);
-				}
-			}
-		}
-	}
+            }
+        }
+    }
+}

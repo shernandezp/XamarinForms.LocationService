@@ -15,59 +15,39 @@
 
 namespace XamarinForms.LocationService.ViewModels;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Maui.Controls;
 using System.Threading.Tasks;
 using XamarinForms.LocationService.Messages;
 using XamarinForms.LocationService.Utils;
 
-public class MainPageViewModel : BaseViewModel
+public partial class MainPageViewModel : BaseViewModel
 {
-    #region vars
-    private double latitude;
-    private double longitude;
-    public string userMessage;
-    public bool startEnabled;
-    public bool stopEnabled;
-    #endregion vars
-
     #region properties
-    public double Latitude
-    {
-        get => latitude;
-        set => SetProperty(ref latitude, value);
-    }
-    public double Longitude
-    {
-        get => longitude;
-        set => SetProperty(ref longitude, value);
-    }
-    public string UserMessage
-    {
-        get => userMessage;
-        set => SetProperty(ref userMessage, value);
-    }
-    public bool StartEnabled
-    {
-        get => startEnabled;
-        set => SetProperty(ref startEnabled, value);
-    }
-    public bool StopEnabled
-    {
-        get => stopEnabled;
-        set => SetProperty(ref stopEnabled, value);
-    }
+
+    [ObservableProperty]
+    private double latitude;
+    [ObservableProperty]
+    private double longitude;
+    [ObservableProperty]
+    public string userMessage;
+    [ObservableProperty]
+    public bool startEnabled;
+    [ObservableProperty]
+    public bool stopEnabled;
+
     #endregion properties
 
-    #region commands
-    public Command StartCommand { get; }
-    public Command EndCommand { get; }
-    #endregion commands
+    #region events
+    [RelayCommand]
+    private async Task StartEventAsync() => await OnStartClick();
+    [RelayCommand]
+    private async Task StopEventAsync() => await OnStopClick();
+    #endregion events
 
     public MainPageViewModel()
     {
-        StartCommand = new Command(async () => await OnStartClick());
-        EndCommand = new Command(async() => await OnStopClick());
         WeakReferenceMessenger.Default.Register<LocationUpdate>(this, HandleLocationUpdate);
         WeakReferenceMessenger.Default.Register<ServiceMessage>(this, HandleServiceMessage);
         WeakReferenceMessenger.Default.Register<LocationErrorMessage>(this, HandleErrorMessage);

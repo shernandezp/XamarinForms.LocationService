@@ -13,16 +13,15 @@
 //  limitations under the License.
 //
 
-namespace XamarinForms.LocationService.ViewModels
+namespace XamarinForms.LocationService;
+
+public static class AppService
 {
-    using CommunityToolkit.Mvvm.ComponentModel;
+    public static object? GetService(Type serviceType) => Current?.GetService(serviceType);
 
-    public partial class BaseViewModel : ObservableObject
-    {
-        [ObservableProperty]
-        private string title = string.Empty;
+    public static TService? GetService<TService>() =>
+        Current is null ? default : Current.GetService<TService>();
 
-        [ObservableProperty]
-        private bool isBusy = false;
-    }
+    public static IServiceProvider? Current =>
+        IPlatformApplication.Current?.Services;
 }

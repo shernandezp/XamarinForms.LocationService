@@ -26,46 +26,46 @@ namespace XamarinForms.LocationService.iOS.Services;
 
 public class iOsLocationService
 {
-		nint _taskId;
-		CancellationTokenSource _cts;
-		public bool isStarted = false;
+    nint _taskId;
+    CancellationTokenSource _cts;
+    public bool isStarted = false;
 
-		public async Task Start()
-		{
-			_cts = new CancellationTokenSource();
-			_taskId = UIApplication.SharedApplication.BeginBackgroundTask("com.company.product.name", OnExpiration);
+    public async Task Start()
+    {
+        _cts = new CancellationTokenSource();
+        _taskId = UIApplication.SharedApplication.BeginBackgroundTask("com.company.product.name", OnExpiration);
 
-			try
-			{
-				var locShared = new Location();
-				isStarted = true;
-				await locShared.Run(_cts.Token);
+        try
+        {
+            var locShared = new Location();
+            isStarted = true;
+            await locShared.Run(_cts.Token);
 
-			}
-			catch (OperationCanceledException)
-			{
-			}
-			finally
-			{
-				if (_cts.IsCancellationRequested)
-				{
-					WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.STOP));
-				}
-			}
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        finally
+        {
+            if (_cts.IsCancellationRequested)
+            {
+                WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.STOP));
+            }
+        }
 
-			var time = UIApplication.SharedApplication.BackgroundTimeRemaining;
+        var time = UIApplication.SharedApplication.BackgroundTimeRemaining;
 
-			UIApplication.SharedApplication.EndBackgroundTask(_taskId);
-		}
+        UIApplication.SharedApplication.EndBackgroundTask(_taskId);
+    }
 
-		public void Stop()
-		{
-			isStarted = false;
-			_cts.Cancel();
-		}
+    public void Stop()
+    {
+        isStarted = false;
+        _cts.Cancel();
+    }
 
-		void OnExpiration()
-		{
-			UIApplication.SharedApplication.EndBackgroundTask(_taskId);
-		}
-	}
+    void OnExpiration()
+    {
+        UIApplication.SharedApplication.EndBackgroundTask(_taskId);
+    }
+}
