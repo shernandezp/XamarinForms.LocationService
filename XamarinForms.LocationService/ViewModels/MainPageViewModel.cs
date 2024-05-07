@@ -43,7 +43,7 @@ public partial class MainPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartEventAsync() => await OnStartClick();
     [RelayCommand]
-    private async Task StopEventAsync() => await OnStopClick();
+    private void StopEvent() => OnStopClick();
     #endregion events
 
     public MainPageViewModel()
@@ -60,19 +60,18 @@ public partial class MainPageViewModel : BaseViewModel
         await Start();
     }
 
-    public async Task OnStopClick()
+    public void OnStopClick()
     {
         WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.STOP));
+        Preferences.Default.Set(Constants.SERVICE_STATUS_KEY, false);
         UserMessage = "Location Service has been stopped!";
-        await SecureStorage.SetAsync(Constants.SERVICE_STATUS_KEY, "0");
         StartEnabled = true;
         StopEnabled = false;
     }
 
     public async Task ValidateStatus() 
     {
-        var status = await SecureStorage.GetAsync(Constants.SERVICE_STATUS_KEY);
-        if (status != null && status.Equals("1")) 
+        if (!Preferences.Default.Get(Constants.SERVICE_STATUS_KEY, false)) 
         {
             await Start();
         }
@@ -83,7 +82,7 @@ public partial class MainPageViewModel : BaseViewModel
         await PermissionHelper.CheckLocationPermissions();
         PermissionHelper.CheckNotificationPermissions();
         WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.START));
-        await SecureStorage.SetAsync(Constants.SERVICE_STATUS_KEY, "1");
+        Preferences.Default.Set(Constants.SERVICE_STATUS_KEY, true);
         StartEnabled = false;
         StopEnabled = true;
     }

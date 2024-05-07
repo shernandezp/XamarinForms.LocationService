@@ -16,6 +16,8 @@
 using Android;
 using Android.App;
 using Android.Content;
+using Microsoft.Maui.Storage;
+using XamarinForms.LocationService.Utils;
 
 [assembly: UsesPermission(Manifest.Permission.ReceiveBootCompleted)]
 namespace XamarinForms.LocationService.Droid;
@@ -26,7 +28,7 @@ public class BootBroadcastReceiver : BroadcastReceiver
 {
     public override void OnReceive(Context context, Intent intent)
     {
-        if (intent.Action.Equals(Intent.ActionBootCompleted))
+        if (intent.Action.Equals(Intent.ActionBootCompleted) && Preferences.Default.Get(Constants.SERVICE_STATUS_KEY, false))
         {
             Intent main = new(context, typeof(MainActivity));
             main.AddFlags(ActivityFlags.NewTask);

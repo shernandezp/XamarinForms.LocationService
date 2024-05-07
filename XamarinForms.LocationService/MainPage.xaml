@@ -18,7 +18,7 @@
                 IsEnabled="{Binding StartEnabled}" />
 
         <Button Text="Stop Service"
-                Command="{Binding StopEventCommand}"
+                Command="{Binding StopEventCommand }"
                 IsEnabled="{Binding StopEnabled}" />
 
         <StackLayout Spacing="10">

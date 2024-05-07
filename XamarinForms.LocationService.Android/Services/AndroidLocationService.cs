@@ -28,8 +28,9 @@ namespace XamarinForms.LocationService.Droid.Services
     using Microsoft.Maui.Controls;
     using CommunityToolkit.Mvvm.Messaging;
     using XamarinForms.LocationService.Utils;
+    using global::Android.Content.PM;
 
-    [Service]
+    [Service(ForegroundServiceType = ForegroundService.TypeDataSync)]
     public class AndroidLocationService : Service
     {
 		CancellationTokenSource _cts;
@@ -45,9 +46,17 @@ namespace XamarinForms.LocationService.Droid.Services
 			_cts = new CancellationTokenSource();
 
 			var notification = DependencyService.Get<INotification>().ReturnNotification();
-			StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
+            if (Build.VERSION.SdkInt > BuildVersionCodes.Q)
+            {
+                StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification,
+                ForegroundService.TypeDataSync);
+            }
+            else
+            {
+                StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
+            }
 
-			Task.Run(() => {
+            Task.Run(() => {
 				try
 				{
 					var locShared = new Location();

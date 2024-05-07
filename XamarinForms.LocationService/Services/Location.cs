@@ -39,11 +39,7 @@ public sealed class Location
                 var location = await Geolocation.GetLocationAsync(request, token);
                 if (location != null)
                 {
-                    var message = new LocationModel
-                    {
-                        Latitude = location.Latitude,
-                        Longitude = location.Longitude
-                    };
+                    var message = new LocationModel(location.Latitude, location.Longitude);
 
                     WeakReferenceMessenger.Default.Send(new LocationUpdate(message));
                 }

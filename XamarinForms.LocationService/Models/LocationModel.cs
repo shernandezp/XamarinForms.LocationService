@@ -15,8 +15,7 @@
 
 namespace XamarinForms.LocationService.Models;
 
-internal class LocationModel
-{
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-}
+internal readonly record struct LocationModel(
+
+    double Latitude,
+    double Longitude);
