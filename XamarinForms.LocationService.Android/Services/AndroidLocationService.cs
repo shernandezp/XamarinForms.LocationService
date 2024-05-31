@@ -30,7 +30,7 @@ namespace XamarinForms.LocationService.Droid.Services
     using XamarinForms.LocationService.Utils;
     using global::Android.Content.PM;
 
-    [Service(ForegroundServiceType = ForegroundService.TypeDataSync)]
+    [Service(ForegroundServiceType = ForegroundService.TypeLocation)]
     public class AndroidLocationService : Service
     {
 		CancellationTokenSource _cts;
@@ -49,7 +49,7 @@ namespace XamarinForms.LocationService.Droid.Services
             if (Build.VERSION.SdkInt > BuildVersionCodes.Q)
             {
                 StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification,
-                ForegroundService.TypeDataSync);
+                ForegroundService.TypeLocation);
             }
             else
             {

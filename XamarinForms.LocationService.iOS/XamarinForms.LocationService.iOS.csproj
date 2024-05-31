@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.10" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
   </ItemGroup>
 </Project>
