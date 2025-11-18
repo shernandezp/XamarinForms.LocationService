@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="LocationService.csproj" />
+  <Project Path="src/LocationService.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>
