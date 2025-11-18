@@ -23,6 +23,7 @@ namespace LocationService.ViewModels;
 
 internal partial class MainPageViewModel : BaseViewModel
 {
+    private readonly IPreferencesService preferences;
 
     #region properties
 
@@ -44,8 +45,11 @@ internal partial class MainPageViewModel : BaseViewModel
     [RelayCommand]
     private void StopEvent() => OnStopClick();
 
-    public MainPageViewModel()
+    // Constructor for injection
+    public MainPageViewModel(IPreferencesService preferences)
     {
+        this.preferences = preferences;
+
         WeakReferenceMessenger.Default.Register<LocationUpdate>(this, HandleLocationUpdate);
         WeakReferenceMessenger.Default.Register<ServiceMessage>(this, HandleServiceMessage);
         WeakReferenceMessenger.Default.Register<LocationErrorMessage>(this, HandleErrorMessage);
@@ -59,7 +63,7 @@ internal partial class MainPageViewModel : BaseViewModel
     public void OnStopClick()
     {
         WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.STOP));
-        Preferences.Default.Set(Constants.SERVICE_STATUS_KEY, false);
+        preferences.Set(Constants.SERVICE_STATUS_KEY, false);
         UserMessage = "Location Service has been stopped!";
         StartEnabled = true;
         StopEnabled = false;
@@ -67,7 +71,7 @@ internal partial class MainPageViewModel : BaseViewModel
 
     public async Task ValidateStatus()
     {
-        if (Preferences.Default.Get(Constants.SERVICE_STATUS_KEY, false))
+        if (preferences.Get(Constants.SERVICE_STATUS_KEY, false))
         {
             await Start();
         }
@@ -78,7 +82,7 @@ internal partial class MainPageViewModel : BaseViewModel
         await PermissionHelper.CheckLocationPermissions();
         PermissionHelper.CheckNotificationPermissions();
         WeakReferenceMessenger.Default.Send(new ServiceMessage(ActionsEnum.START));
-        Preferences.Default.Set(Constants.SERVICE_STATUS_KEY, true);
+        preferences.Set(Constants.SERVICE_STATUS_KEY, true);
         StartEnabled = false;
         StopEnabled = true;
     }

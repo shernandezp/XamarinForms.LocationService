@@ -14,6 +14,7 @@
 //
 
 using LocationService.ViewModels;
+using LocationService.Utils;
 
 namespace LocationService
 {
@@ -30,6 +31,8 @@ namespace LocationService
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // Register preferences abstraction and view model in DI
+            builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
             builder.Services.AddSingleton<MainPageViewModel>();
 
             return builder.Build();
