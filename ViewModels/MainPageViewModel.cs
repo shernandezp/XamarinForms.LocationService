@@ -67,7 +67,7 @@ internal partial class MainPageViewModel : BaseViewModel
 
     public async Task ValidateStatus()
     {
-        if (!Preferences.Default.Get(Constants.SERVICE_STATUS_KEY, false))
+        if (Preferences.Default.Get(Constants.SERVICE_STATUS_KEY, false))
         {
             await Start();
         }
